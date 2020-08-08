@@ -1,0 +1,19 @@
+version: 2.1
+
+jobs:
+  build-and-test:
+    docker:
+      - image: openjdk:11
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: ./mvnw clean verify
+      - run:
+          name: Test Report
+          command: bash <(curl -s https://codecov.io/bash)
+
+workflows:
+  routine:
+    jobs:
+      - build-and-test
