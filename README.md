@@ -2,4 +2,4 @@
 [![codecov](https://codecov.io/gh/rw00/random-apps/branch/master/graph/badge.svg?token=DVF0GXZQJQ)](undefined)
 
 # random-apps
-I developed these simple Java programs back in University
+I developed some of these simple Java programs back in university

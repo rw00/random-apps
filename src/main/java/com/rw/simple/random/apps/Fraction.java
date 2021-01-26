@@ -1,8 +1,11 @@
 package com.rw.simple.random.apps;
 
+import java.util.Objects;
+
+
 public class Fraction {
-    private int numerator;
-    private int denominator;
+    private final int numerator;
+    private final int denominator;
 
 
     public Fraction(int numerator) {
@@ -33,13 +36,24 @@ public class Fraction {
 
     public Fraction multiply(Fraction fraction) {
         Fraction resultantFraction = new Fraction(numerator * fraction.numerator, denominator * fraction.denominator);
-        simplify(resultantFraction);
+        resultantFraction = simplify(resultantFraction);
         return resultantFraction;
+    }
+
+    public Fraction divide(Fraction fraction) {
+        Fraction reciprocalFraction = new Fraction(fraction.denominator, fraction.numerator);
+        return multiply(reciprocalFraction);
     }
 
     public Fraction add(Fraction fraction) {
         Fraction resultantFraction = new Fraction((numerator * fraction.denominator) + (denominator * fraction.numerator), denominator * fraction.denominator);
-        simplify(resultantFraction);
+        resultantFraction = simplify(resultantFraction);
+        return resultantFraction;
+    }
+
+    public Fraction subtract(Fraction fraction) {
+        Fraction resultantFraction = new Fraction((numerator * fraction.denominator) - (denominator * fraction.numerator), denominator * fraction.denominator);
+        resultantFraction = simplify(resultantFraction);
         return resultantFraction;
     }
 
@@ -49,6 +63,10 @@ public class Fraction {
 
     public boolean lessThan(Fraction fraction) {
         return doCalculate(this) < doCalculate(fraction);
+    }
+
+    public boolean greaterThan(Fraction fraction) {
+        return doCalculate(this) > doCalculate(fraction);
     }
 
     @Override
@@ -61,9 +79,14 @@ public class Fraction {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(numerator, denominator);
+    }
+
+    @Override
     public String toString() {
         if (denominator == 1) {
-            return "" + numerator;
+            return Integer.toString(numerator);
         }
         return numerator + "/" + denominator;
     }
@@ -72,10 +95,9 @@ public class Fraction {
         return (1.0 * fraction.numerator) / fraction.denominator;
     }
 
-    private void simplify(Fraction fraction) {
+    private Fraction simplify(Fraction fraction) {
         int k = gcd(fraction.numerator, fraction.denominator);
-        fraction.numerator = fraction.numerator / k;
-        fraction.denominator = fraction.denominator / k;
+        return new Fraction(fraction.numerator / k, fraction.denominator / k);
     }
 
     private int gcd(int a, int b) {
